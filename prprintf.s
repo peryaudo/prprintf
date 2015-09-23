@@ -42,9 +42,20 @@ percent:
 
 percent_percent:
 	cmpb	$37, %al
-	jne	percent_s
+	jne	percent_c
 	movb	%al, %dl
 	call	append
+	jmp	loop
+
+percent_c:
+	cmpb	$99, %al
+	jne	percent_s
+
+	movl	0(%esp), %eax
+	movl	16(%ebp, %eax, 4), %edx
+	call	append
+
+	incl	0(%esp)
 	jmp	loop
 
 percent_s:
